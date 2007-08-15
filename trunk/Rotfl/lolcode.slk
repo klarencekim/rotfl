@@ -1,0 +1,35 @@
+lolcode:
+	HAI statement_separator __StartBlock lolcode_body __EndBlock KTHXBYE
+
+lolcode_body:
+	{ statement_with_separator }
+
+statement_with_separator:
+	statement __PushStatement statement_separator
+
+statement:
+	expression __AssignIt
+	stdio
+
+binary_op:
+	SUM OF
+	DIFF OF
+	PRODUKT OF
+	QUOSHUNT OF
+	MOD OF
+	BIGGR OF
+	SMALLR OF
+
+value:
+	IDENTIFIER
+	NUMBR
+	NUMBAR
+	YARN
+
+expression:
+	binary_op __StartFunction expression __PopArgument AN expression __PopArgument __EndFunction
+	value __PushValue
+
+stdio:
+	VISIBLE __StartFunction { expression __PopArgument } __EndFunction
+	GIMME __StartFunction IDENTIFIER __PopArgument __EndFunction
