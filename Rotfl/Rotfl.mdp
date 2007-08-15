@@ -1,0 +1,43 @@
+<Project name="Rotfl" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Debug" assembly="Rotfl" />
+      <Build debugmode="True" target="Exe" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Release" assembly="Rotfl" />
+      <Build debugmode="False" target="Exe" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="./Main.cs" subtype="Code" buildaction="Compile" />
+    <File name="./AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="./lolcode.slk" subtype="Code" buildaction="Compile" />
+    <File name="./SlkConstants.cs" subtype="Code" buildaction="Compile" />
+    <File name="./SlkParser.cs" subtype="Code" buildaction="Compile" />
+    <File name="./SlkString.cs" subtype="Code" buildaction="Compile" />
+    <File name="./SlkAction.cs" subtype="Code" buildaction="Compile" />
+    <File name="./SlkKeywords.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LolCodeStatement.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LolCodeBlock.cs" subtype="Code" buildaction="Compile" />
+    <File name="./SlkToken.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Scanner.cs" subtype="Code" buildaction="Compile" />
+    <File name="./SlkLog.cs" subtype="Code" buildaction="Compile" />
+    <File name="./SlkError.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LolCodeFunction.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LolCodeContext.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LolCodeValue.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LolCodeExpression.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Tests" subtype="Directory" buildaction="Compile" />
+    <File name="./Tests/InterpreterTests.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Tests/LolCodeValueTests.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="nunit.framework, Version=2.2.9.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+  </References>
+</Project>
