@@ -57,13 +57,62 @@ namespace Rotfl
 			case "SUM": {
 				LolCodeValue a1 = _args[0].Evaluate();
 				LolCodeValue a2 = _args[1].Evaluate();
-//				Console.WriteLine("args: {0} {1}", a1, a2);
 				if(a1.ValueType==typeof(int) && a2.ValueType==typeof(int))
 					return (LolCodeValue)(a1.Numbr+a2.Numbr);
 				else if(a1.ValueType==typeof(double) || a2.ValueType==typeof(double))
 					return (LolCodeValue)(a1.Numbar+a2.Numbar);
 				else // TODO - check casting
 					return (LolCodeValue)(a1.Numbar+a2.Numbar);
+			}
+			case "DIFF": {
+				LolCodeValue a1 = _args[0].Evaluate();
+				LolCodeValue a2 = _args[1].Evaluate();
+				if(a1.ValueType==typeof(int) && a2.ValueType==typeof(int))
+					return (LolCodeValue)(a1.Numbr-a2.Numbr);
+				else if(a1.ValueType==typeof(double) || a2.ValueType==typeof(double))
+					return (LolCodeValue)(a1.Numbar-a2.Numbar);
+				else // TODO - check casting
+					return (LolCodeValue)(a1.Numbar-a2.Numbar);
+			}
+			case "PRODUKT": {
+				LolCodeValue a1 = _args[0].Evaluate();
+				LolCodeValue a2 = _args[1].Evaluate();
+				if(a1.ValueType==typeof(int) && a2.ValueType==typeof(int))
+					return (LolCodeValue)(a1.Numbr*a2.Numbr);
+				else if(a1.ValueType==typeof(double) || a2.ValueType==typeof(double))
+					return (LolCodeValue)(a1.Numbar*a2.Numbar);
+				else // TODO - check casting
+					return (LolCodeValue)(a1.Numbar*a2.Numbar);
+			}
+			case "QUOSHUNT": {
+				LolCodeValue a1 = _args[0].Evaluate();
+				LolCodeValue a2 = _args[1].Evaluate();
+				if(a1.ValueType==typeof(int) && a2.ValueType==typeof(int))
+					return (LolCodeValue)(a1.Numbr/a2.Numbr);
+				else if(a1.ValueType==typeof(double) || a2.ValueType==typeof(double))
+					return (LolCodeValue)(a1.Numbar/a2.Numbar);
+				else // TODO - check casting
+					return (LolCodeValue)(a1.Numbar/a2.Numbar);
+			}
+			case "MOD": {
+				LolCodeValue a1 = _args[0].Evaluate();
+				LolCodeValue a2 = _args[1].Evaluate();
+				if(a1.ValueType==typeof(int) && a2.ValueType==typeof(int))
+					return (LolCodeValue)(a1.Numbr%a2.Numbr);
+				else if(a1.ValueType==typeof(double) || a2.ValueType==typeof(double))
+					return (LolCodeValue)(a1.Numbar%a2.Numbar);
+				else // TODO - check casting
+					return (LolCodeValue)(a1.Numbar%a2.Numbar);
+			}
+			case "BIGGR": {
+				LolCodeValue a1 = _args[0].Evaluate();
+				LolCodeValue a2 = _args[1].Evaluate();
+				return a1.Numbar>a2.Numbar?a1:a2;
+			}
+			case "SMALLR": {
+				LolCodeValue a1 = _args[0].Evaluate();
+				LolCodeValue a2 = _args[1].Evaluate();
+				return a1.Numbar<a2.Numbar?a1:a2;
 			}
 			default:
 				return new LolCodeValue(null);

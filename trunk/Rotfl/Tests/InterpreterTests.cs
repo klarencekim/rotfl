@@ -42,10 +42,6 @@ namespace Rotfl
 				
 		[SetUp]
 		public void Init() {
-			sw = new StringWriter();
-			Console.SetOut(sw);
-			
-			main = new LolCodeBlock();
 			log = new SlkLog();
 		}
 
@@ -56,6 +52,10 @@ namespace Rotfl
 		}
 
 		private void _runParser(string program) {
+			sw = new StringWriter();
+			Console.SetOut(sw);
+
+			main = new LolCodeBlock();
 			tokens = new SlkToken(program, log);
 			error = new SlkError(tokens, log);
 			action = new SlkAction(tokens, main);
@@ -92,6 +92,32 @@ namespace Rotfl
 		public void VisibleNoNl() {
 			_runParser("HAI , VISIBLE 123 ! , KTHXBYE");
 			Assert.AreEqual("123", sw.ToString());
+		}
+
+		[Test]
+		public void BuildinMathSum() {
+			_runParser("HAI , VISIBLE SUM OF 1 AN 2 , KTHXBYE");
+			Assert.AreEqual("3\n", sw.ToString(), "sum");
+
+			_runParser("HAI , VISIBLE DIFF OF 1 AN 2 , KTHXBYE");
+			Assert.AreEqual("-1\n", sw.ToString(), "diff");
+
+			_runParser("HAI , VISIBLE PRODUKT OF 1 AN 2 , KTHXBYE");
+			Assert.AreEqual("2\n", sw.ToString(), "produkt");
+
+			_runParser("HAI , VISIBLE QUOSHUNT OF 1 AN 2 , KTHXBYE");
+			Assert.AreEqual("0\n", sw.ToString(), "quoshunt int");
+			_runParser("HAI , VISIBLE QUOSHUNT OF 1 AN 2. , KTHXBYE");
+			Assert.AreEqual("0.50\n", sw.ToString(), "quoshunt float");
+
+			_runParser("HAI , VISIBLE MOD OF 10 AN 3 , KTHXBYE");
+			Assert.AreEqual("1\n", sw.ToString(), "mod");
+
+			_runParser("HAI , VISIBLE BIGGR OF 10 AN 3 , KTHXBYE");
+			Assert.AreEqual("10\n", sw.ToString(), "biggr");
+
+			_runParser("HAI , VISIBLE SMALLR OF 10 AN 3 , KTHXBYE");
+			Assert.AreEqual("3\n", sw.ToString(), "smallr");
 		}
 	}
 }
