@@ -37,7 +37,7 @@ namespace Rotfl
 		private string expr;
 		private int start;
 		private int length;
-		private Regex _reIdentifier = new Regex(@"\G[a-zA-Z_]+[0-9a-zA-Z_]*", RegexOptions.Compiled);
+		private Regex _reIdentifier = new Regex(@"\G[a-zA-Z]+[0-9a-zA-Z_]*", RegexOptions.Compiled);
 		private Regex _reInteger = new Regex(@"\G[-]?[0-9]+", RegexOptions.Compiled);
 		private Regex _reFloat = new Regex(@"\G[-]?([0-9]*\.[0-9]+|[0-9]+\.)", RegexOptions.Compiled);
 		
@@ -143,6 +143,8 @@ namespace Rotfl
 					token = SlkConstants.PRODUKT_; break;
 				case "QUOSHUNT":
 					token = SlkConstants.QUOSHUNT_; break;
+				case "MOD":
+					token = SlkConstants.MOD_; break;
 				case "VISIBLE":
 					token = SlkConstants.VISIBLE_; break;
 				case "GIMME":
