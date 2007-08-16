@@ -119,5 +119,11 @@ namespace Rotfl
 			_runParser("HAI , VISIBLE SMALLR OF 10 AN 3 , KTHXBYE");
 			Assert.AreEqual("3\n", sw.ToString(), "smallr");
 		}
+
+		[Test]
+		public void Variable() {
+			_runParser("HAI , I HAS A var ITZ 999 , VISIBLE var , KTHXBYE");
+			Assert.AreEqual("999\n", sw.ToString());
+		}
 	}
 }

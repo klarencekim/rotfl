@@ -32,10 +32,10 @@ namespace Rotfl
 		{
 			LolCodeBlock main = new LolCodeBlock();
 			SlkLog log = new SlkLog();
-			SlkToken tokens = new SlkToken("HAI , VISIBLE 666, VISIBLE SUM OF 123 AN 1.23, VISIBLE 12.3 , KTHXBYE", log);
+			SlkToken tokens = new SlkToken("HAI , I HAS A var ITZ 999 , VISIBLE var , KTHXBYE", log);
 			SlkError error = new SlkError(tokens, log);
 			SlkAction action = new SlkAction(tokens, main);
-			SlkParser.parse(0, action, tokens, error, log, SlkConstants.NT_LOLCODE_);
+			SlkParser.parse(1, action, tokens, error, log, SlkConstants.NT_LOLCODE_);
 			
 			main.Run();
 		}

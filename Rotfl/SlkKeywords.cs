@@ -48,6 +48,8 @@ public  string[] name = {
 ,"NUMBAR"
 ,"YARN"
 ,"AN"
+,"I_HAS_A"
+,"ITZ"
 ,"VISIBLE"
 ,"GIMME"
 }; 
@@ -70,6 +72,8 @@ public  short[] token = {
 ,SlkConstants.NUMBAR_ 
 ,SlkConstants.YARN_ 
 ,SlkConstants.AN_ 
+,SlkConstants.I_HAS_A_ 
+,SlkConstants.ITZ_ 
 ,SlkConstants.VISIBLE_ 
 ,SlkConstants.GIMME_ 
 };

@@ -32,12 +32,13 @@ namespace Rotfl
 		private List<LolCodeExpression> _args = new List<LolCodeExpression>();
 		private string _name;
 		
-		private LolCodeFunction(string name) {
+		private LolCodeFunction(LolCodeContext ctx, string name) : base(ctx) {
 			_name = name;
 		}
 		
-		public static LolCodeFunction Create(string name) {
-			return new LolCodeFunction(name); 
+		public static LolCodeFunction Create(LolCodeContext ctx, string name) {
+			// lookup build-ins... do it in pretty way 
+			return new LolCodeFunction(ctx, name); 
 		}
 		
 		public void Add(LolCodeExpression expr) {

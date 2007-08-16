@@ -31,7 +31,7 @@ namespace Rotfl
 	public class SlkAction
 	{
 		private Stack<LolCodeContext> _contexts = new Stack<LolCodeContext>();
-		private Stack<LolCodeExpression> _expressions = new Stack<LolCodeExpression>();
+		private Stack<LolCodeStatement> _expressions = new Stack<LolCodeStatement>();
 		private Scanner _scanner;
 		
 		internal SlkAction(Scanner scanner, LolCodeBlock program_block) {
@@ -40,7 +40,7 @@ namespace Rotfl
 		}
 
 		private void StartBlock() {
-			LolCodeBlock nb = new LolCodeBlock();
+			LolCodeBlock nb = new LolCodeBlock(_contexts.Peek());
 			((LolCodeBlock) _contexts.Peek()).Add(nb);
 			_contexts.Push(nb);
 		}
@@ -54,11 +54,14 @@ namespace Rotfl
 		}
 		
 		private void PushValue() {
-			_expressions.Push(_scanner.GetValue());
+			LolCodeValue v = _scanner.GetValue();
+			if(v is LolCodeValueVariable)
+				(v as LolCodeValueVariable).Context = LolCodeBlock.GetNextVariableContext(_contexts.Peek());
+			_expressions.Push(v);
 		}
 		
 		private void StartFunction() {
-			LolCodeFunction func = LolCodeFunction.Create(_scanner.Attribute);
+			LolCodeFunction func = LolCodeFunction.Create(_contexts.Peek(), _scanner.Attribute);
 /*			LolCodeContext ctx = _contexts.Peek();
 			if(ctx is LolCodeBlock) {
 				((LolCodeBlock) ctx).Add(func);
@@ -72,7 +75,7 @@ namespace Rotfl
 
 		private void PopArgument() { // add argument to function
 			LolCodeFunction func = _contexts.Peek() as LolCodeFunction;
-			func.Add(_expressions.Pop());
+			func.Add((LolCodeExpression) _expressions.Pop());
 		}
 		
 		private void EndFunction() {
@@ -83,6 +86,31 @@ namespace Rotfl
 			// TODO - add assign statement to block
 		}
 
+		private void SaveIdentifier() {
+			_expressions.Push((LolCodeValue) _scanner.Attribute);
+		}
+		
+		private void DeclareAssign() {
+			LolCodeAssignment ass;
+			LolCodeExpression exp = (LolCodeExpression) _expressions.Pop();
+			string name = (_expressions.Pop() as LolCodeExpression).Evaluate().Yarn;
+			LolCodeContext ctx = LolCodeBlock.GetNextVariableContext(_contexts.Peek());
+			ass = new LolCodeAssignment(true, name, ctx, exp);
+
+			_expressions.Push(ass);
+//			(_contexts.Peek() as LolCodeBlock).Add(ass);
+		}
+		
+		private void Declare() {
+			LolCodeAssignment ass;
+			string name = (_expressions.Pop() as LolCodeExpression).Evaluate().Yarn;
+			LolCodeContext ctx = LolCodeBlock.GetNextVariableContext(_contexts.Peek());
+			ass = new LolCodeAssignment(name, ctx);
+			
+			_expressions.Push(ass);
+//			(_contexts.Peek() as LolCodeBlock).Add(ass);
+		}
+		
 		public void execute(int number)
 		{
 			switch ( number ) {
@@ -94,6 +122,9 @@ namespace Rotfl
 			case 6:  PopArgument();  break;
 			case 7:  EndFunction();  break;
 			case 8:  PushValue();  break;
+			case 9:  SaveIdentifier();  break;
+			case 10:  DeclareAssign();  break;
+			case 11:  Declare();  break;
 			}
 		}
 	}

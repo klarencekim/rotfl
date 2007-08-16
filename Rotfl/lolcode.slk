@@ -9,6 +9,7 @@ statement_with_separator:
 
 statement:
 	expression __AssignIt
+	declaration
 	stdio
 
 binary_op:
@@ -29,6 +30,9 @@ value:
 expression:
 	binary_op __StartFunction expression __PopArgument AN expression __PopArgument __EndFunction
 	value __PushValue
+
+declaration:
+	I_HAS_A IDENTIFIER __SaveIdentifier [ ITZ expression __DeclareAssign ] __Declare
 
 stdio:
 	VISIBLE __StartFunction { expression __PopArgument } __EndFunction

@@ -75,7 +75,7 @@ namespace Rotfl
 			
 		}
 
-		public Type ValueType {
+		virtual public Type ValueType {
 			get { return lolvalue.GetType(); }
 		}
 		
@@ -125,5 +125,35 @@ namespace Rotfl
 		public override double Numbar {
 			get { return double.Parse((string)lolvalue, CultureInfo.InvariantCulture); }
 		}
+	}
+	
+	public class LolCodeValueVariable : LolCodeValue {
+		private LolCodeBlock _blk;
+		
+		public LolCodeValueVariable(string val) : base(val) { }
+		
+		public LolCodeBlock Context {
+			get { return _blk; }
+			set { _blk = value; }
+		}
+		
+		public override LolCodeValue Evaluate () {
+			return _blk.GetVariable(lolvalue as string);
+		}
+
+		public override string Yarn {
+			get { return Evaluate().Yarn; }
+		}
+		public override int Numbr {
+			get { return Evaluate().Numbr; }
+		}
+		public override double Numbar {
+			get { return Evaluate().Numbar; }
+		}
+		
+		public override Type ValueType {
+			get { return Evaluate().ValueType; }
+		}
+
 	}
 }

@@ -21,9 +21,11 @@ public const short  NUMBR_ = 269;
 public const short  NUMBAR_ = 270;
 public const short  YARN_ = 271;
 public const short  AN_ = 272;
-public const short  VISIBLE_ = 273;
-public const short  GIMME_ = 274;
-public const short  END_OF_SLK_INPUT_ = 275;
+public const short  I_HAS_A_ = 273;
+public const short  ITZ_ = 274;
+public const short  VISIBLE_ = 275;
+public const short  GIMME_ = 276;
+public const short  END_OF_SLK_INPUT_ = 277;
 
 
 public const short  NT_LOLCODE_ = 2049;
@@ -33,9 +35,11 @@ public const short  NT_STATEMENT_ = 2052;
 public const short  NT_BINARY_OP_ = 2053;
 public const short  NT_VALUE_ = 2054;
 public const short  NT_EXPRESSION_ = 2055;
-public const short  NT_STDIO_ = 2056;
-public const short  NT_STATEMENT_WITH_SEPARATOR_STAR_ = 2057;
-public const short  NT_EXPRESSION_STAR_ = 2058;
+public const short  NT_DECLARATION_ = 2056;
+public const short  NT_STDIO_ = 2057;
+public const short  NT_STATEMENT_WITH_SEPARATOR_STAR_ = 2058;
+public const short  NT_ITZ_EXPRESSION_OPT_ = 2059;
+public const short  NT_EXPRESSION_STAR_ = 2060;
 
 
 };
