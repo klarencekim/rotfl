@@ -62,5 +62,17 @@ namespace Rotfl
 			Assert.AreSame(tmp, blk.GetVariable("def"), "set child, get main");
 			Assert.AreSame(tmp, chl_blk.GetVariable("def"), "set child, get child");
 		}
+
+		[Test]
+		[ExpectedException( typeof( NullReferenceException ) )]
+		// Stupid, but let it be for now
+		public void VariableUninitialized() {
+			LolCodeBlock blk = new LolCodeBlock();
+			
+			blk.AddVariable("abc");
+			LolCodeValue tmp = blk.GetVariable("abc");
+			
+			Assert.AreEqual(null, tmp.ValueType);
+		}
 	}
 }
