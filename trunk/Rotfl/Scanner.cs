@@ -40,6 +40,7 @@ namespace Rotfl
 		private Regex _reIdentifier = new Regex(@"\G[a-zA-Z]+[0-9a-zA-Z_]*", RegexOptions.Compiled);
 		private Regex _reInteger = new Regex(@"\G[-]?[0-9]+", RegexOptions.Compiled);
 		private Regex _reFloat = new Regex(@"\G[-]?([0-9]*\.[0-9]+|[0-9]+\.)", RegexOptions.Compiled);
+		private Regex _reIHasA = new Regex(@"\GI\s+HAS\s+A", RegexOptions.Compiled);
 		
 
 		internal Scanner(string input, SlkLog log) {
@@ -52,7 +53,7 @@ namespace Rotfl
 		public string Attribute {
 			get { return last_attribute; }
 		}
-
+		
 		public LolCodeValue GetValue() {
 //			Console.WriteLine("--- Token is: {0} ---", last_value);
 			switch(last_value) {
@@ -60,6 +61,8 @@ namespace Rotfl
 				return (LolCodeValue)(double.Parse(Attribute, System.Globalization.CultureInfo.InvariantCulture));
 			case SlkConstants.NUMBR_:
 				return (LolCodeValue)(int.Parse(Attribute));
+			case SlkConstants.IDENTIFIER_:
+				return new LolCodeValueVariable(Attribute);
 			default:
 				return (LolCodeValue)Attribute;
 			}
@@ -122,19 +125,37 @@ namespace Rotfl
 				return token;
 			}
 
+			m = _reIHasA.Match(expr, start);
+			if(m.Success) {
+				if(((start+m.Length) < (expr.Length-1)) && (Char.IsLetterOrDigit(expr[start+m.Length]) || expr[start+m.Length]=='_')) {
+					// stupid situation - don't even care...
+					// I HAS AMERICA
+				} else {
+					token = SlkConstants.I_HAS_A_;
+
+					start += m.Length;
+				
+					while(start<expr.Length && Char.IsWhiteSpace(expr[start]))
+						start++;
+
+					return token;
+				}	
+			}
+			
 			m = _reIdentifier.Match(expr, start);
 			if(m.Success) {
+				bool skip = false;
 				switch(m.Groups[0].Value) {
 				case "HAI":
-					token = SlkConstants.HAI_; break;
+					token = SlkConstants.HAI_; skip=true; break;
 				case "KTHXBYE":
-					token = SlkConstants.KTHXBYE_; break;
+					token = SlkConstants.KTHXBYE_; skip=true; break;
 				case "BIGGR":
 					token = SlkConstants.BIGGR_; break;
 				case "SMALLR":
 					token = SlkConstants.SMALLR_; break;
 				case "OF":
-					token = SlkConstants.OF_; break;
+					token = SlkConstants.OF_; skip=true; break;
 				case "SUM":
 					token = SlkConstants.SUM_; break;
 				case "DIFF":
@@ -151,12 +172,14 @@ namespace Rotfl
 					token = SlkConstants.GIMME_; break;
 				case "AN":
 					token = SlkConstants.AN_; break;
+				case "ITZ":
+					token = SlkConstants.ITZ_; skip=true; break;
 				default:
-					token = SlkConstants.IDENTIFIER_; break;
+					last_value = token = SlkConstants.IDENTIFIER_; break;
 				}
 
 				
-				if(token!=SlkConstants.OF_) // binary op handling
+				if(skip==false) // binary op handling
 					attribute = expr.Substring(start, m.Length);
 				
 				start += m.Length;

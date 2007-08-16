@@ -1,6 +1,6 @@
-// LolCodeExpression.cs
+// VariablesTests.cs
 //
-// Copyright (c) 2007 Stanisław Pitucha
+// Copyright (c) 2007 [copyright holders]
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,44 @@
 //
 
 using System;
+using NUnit.Framework;
 
 namespace Rotfl
 {
 	
 	
-	public abstract class LolCodeExpression : LolCodeStatement
-	{
-		public LolCodeExpression() : base(null) { }
-		public LolCodeExpression(LolCodeContext ctx) : base(ctx) { }
-		public abstract LolCodeValue Evaluate();
+	[TestFixture]
+	public class VariablesTests {
+		
+		[Test]
+		public void VariableContextSearch() {
+			LolCodeBlock blk = new LolCodeBlock();
+			LolCodeBlock chl_blk = new LolCodeBlock(blk);
+			
+			Assert.AreSame(blk, LolCodeBlock.GetNextVariableContext(blk), "same context");
+			Assert.AreSame(blk, LolCodeBlock.GetNextVariableContext(chl_blk), "child context");
+		}
+
+		[Test]
+		public void VariableSearch() {
+			LolCodeBlock blk = new LolCodeBlock();
+			LolCodeBlock chl_blk = new LolCodeBlock(blk);
+			
+			LolCodeValue tmp = (LolCodeValue)10;
+			
+			blk.AddVariable("abc");
+			blk.SetVariable("abc", tmp);
+			
+			Assert.AreSame(tmp, blk.GetVariable("abc"), "set main, get main");
+			Assert.AreSame(tmp, chl_blk.GetVariable("abc"), "set main, get child");
+
+			tmp = (LolCodeValue)20;
+
+			chl_blk.AddVariable("def");
+			chl_blk.SetVariable("def", tmp);
+
+			Assert.AreSame(tmp, blk.GetVariable("def"), "set child, get main");
+			Assert.AreSame(tmp, chl_blk.GetVariable("def"), "set child, get child");
+		}
 	}
 }

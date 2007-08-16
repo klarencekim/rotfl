@@ -1,4 +1,4 @@
-// LolCodeExpression.cs
+// LolCodeAssignment.cs
 //
 // Copyright (c) 2007 Stanisław Pitucha
 //
@@ -26,12 +26,32 @@ using System;
 
 namespace Rotfl
 {
-	
-	
-	public abstract class LolCodeExpression : LolCodeStatement
+	public class LolCodeAssignment : LolCodeStatement
 	{
-		public LolCodeExpression() : base(null) { }
-		public LolCodeExpression(LolCodeContext ctx) : base(ctx) { }
-		public abstract LolCodeValue Evaluate();
+		private string _var;
+		private LolCodeContext _varContext;
+		private bool _create;
+		private LolCodeExpression _expr = null;
+		
+		public LolCodeAssignment(string var, LolCodeContext context) {
+			_var = var;
+			_varContext = context;
+			_create = true;
+		}
+
+		public LolCodeAssignment(bool create, string var, LolCodeContext context, LolCodeExpression expr) {
+			_create = create;
+			_var = var;
+			_varContext = context;
+			_expr = expr;
+		}
+
+		public override void Run () {
+			if(_create) {
+				(_varContext as LolCodeBlock).AddVariable(_var);
+			}
+			
+			(_varContext as LolCodeBlock).SetVariable(_var, _expr.Evaluate());
+		}
 	}
 }

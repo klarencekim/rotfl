@@ -46,34 +46,36 @@ namespace Rotfl
 			foreach(LolCodeStatement statement in _statements)
 				statement.Run();
 		}
-		
-		public void AddVariable(string name) {
-			LolCodeContext con = this;
-			while(con!=null) {
-				if(con is LolCodeBlock) {
-					Dictionary<string,LolCodeValue> vars = (con as LolCodeBlock)._variables;
-					if(vars!=null) {
-						vars.Add(name, new LolCodeValue(null));
-					}
+
+		static public LolCodeBlock GetNextVariableContext(LolCodeContext ctx) {
+			while(ctx!=null) {
+				if(ctx is LolCodeBlock) {
+					if((ctx as LolCodeBlock)._variables!=null)
+						return (ctx as LolCodeBlock);
 				}
+				ctx = ctx.Parent;
 			}
-			
+
 			throw new ApplicationException("Can't find context with vars!");
+		}
+			
+		public void AddVariable(string name) {
+			LolCodeBlock con = GetNextVariableContext(this);
+			con._variables.Add(name, new LolCodeValue(null));
 		}
 		
 		public void SetVariable(string name, LolCodeValue val) {
-			LolCodeContext con = this;
+			LolCodeBlock con = this;
 			while(con!=null) {
-				if(con is LolCodeBlock) {
-					Dictionary<string,LolCodeValue> vars = (con as LolCodeBlock)._variables;
-					if(vars!=null) {
-						if(vars.ContainsKey(name)) {
-							vars[name] = val;
-							return;
-						}
+				Dictionary<string,LolCodeValue> vars = con._variables;
+				if(vars!=null) {
+					if(vars.ContainsKey(name)) {
+						vars[name] = val;
+						return;
 					}
 				}
-				// TODO: is it LolFunctionBlock? that will have own variables
+				con = GetNextVariableContext(con.Parent);
+				// TODO: is it LolFunctionBlock? that will have own variables  too
 			}
 			
 			throw new ApplicationException("No variable '"+name+"' defined!");
@@ -91,6 +93,7 @@ namespace Rotfl
 					}
 				}
 				// TODO: is it LolFunctionBlock? that will have own variables
+				con = GetNextVariableContext(con.Parent);
 			}
 			
 			throw new ApplicationException("No variable '"+name+"' defined!");
